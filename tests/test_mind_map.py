@@ -329,7 +329,7 @@ class TestMindMapAPI:
                 "id": "fake-app-0"
             },
         )
-        assert response.status_code == 404
+        assert response.status_code == 400
 
     def test_add_leaf(self):
         response = self.client.put(
@@ -366,4 +366,4 @@ class TestMindMapAPI:
                 "text": "a new text"
             },
         )
-        assert response.status_code == 404
+        assert response.status_code == 400

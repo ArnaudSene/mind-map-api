@@ -7,7 +7,8 @@ from fastapi.templating import Jinja2Templates
 
 from src.applications import ReadMindMapApps, ReadMindMapApp, \
     CreateMindMapApp, ReadMindMapAppsPrettyFormat, AddMindMapLeaf
-from src.models import MindMapApp, MindMapLeaf
+from src.models import MindMapApp, MindMapLeaf, MindMapAppCreateError, \
+    MindMapAppAddError
 from src.providers import MindMapDBProvider
 
 # Define provider for dependency injection
@@ -63,47 +64,26 @@ async def read_root(request: Request):
 
 @app.get("/apps", response_model=List[MindMapApp], tags=["items"])
 async def read_apps() -> List[MindMapApp]:
-    """
-    Read apps.
-
-    Returns:
-        List of MindMapApp DTO.
-    """
+    """Read mind map apps and leaves."""
     mind_map_items = ReadMindMapApps(db_provider=DB_PROVIDER)()
     return mind_map_items
 
 
 @app.get("/apps/{app_id}", response_model=MindMapApp, tags=["items"])
 async def read_app(app_id: str) -> MindMapApp:
-    """
-    Read an app by id.
-
-    Args:
-        app_id: An app id.
-
-    Returns:
-        A MindMapApp DTO.
-    """
+    """Read an app by id."""
     return ReadMindMapApp(db_provider=DB_PROVIDER)(id=app_id)
 
 
 @app.post("/apps/", response_model=MindMapApp, tags=["items"])
 async def create_app(mind_map_app: MindMapApp) -> MindMapApp:
-    """
-    Create an app.
-
-    Args:
-        mind_map_app: A MindMapApp DTO.
-
-    Returns:
-        A MindMapApp DTO.
-
-    Raises:
-        HTTPException
-    """
+    """Create an app."""
     try:
         return CreateMindMapApp(db_provider=DB_PROVIDER)(
             mind_map_app=mind_map_app)
+
+    except MindMapAppCreateError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
     except Exception as exc:
         raise HTTPException(status_code=404, detail=str(exc))
@@ -111,24 +91,14 @@ async def create_app(mind_map_app: MindMapApp) -> MindMapApp:
 
 @app.put("/apps/{app_id}", response_model=MindMapApp, tags=["items"])
 async def add_leaf(app_id: str, mind_map_leaf: MindMapLeaf) -> MindMapApp:
-    """
-    Add a leaf in app.
-
-    Args:
-        app_id: An app id
-        mind_map_leaf: A MindMapLeaf DTO.
-
-    Returns:
-        A MindMapApp DTO.
-
-    Raises:
-        HTTPException
-    """
+    """Add a leaf in app."""
     try:
-        # add leaf to app
         return AddMindMapLeaf(db_provider=DB_PROVIDER)(
             id=app_id,
             mind_map_leaf=mind_map_leaf)
+
+    except MindMapAppAddError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
     except Exception as exc:
         raise HTTPException(status_code=404, detail=str(exc))

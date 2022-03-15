@@ -1,3 +1,11 @@
+# 0.0.2
+## feat: Mind Map update
+
+- fix http response status code 404 to 400
+- Update container
+- Update readme
+
+---
 # 0.0.1
 ## feat: Mind Map (init)
 
