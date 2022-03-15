@@ -3,9 +3,9 @@
 This is a light API powered by [FastAPI](https://fastapi.tiangolo.com/) with no persistent data.
 
 
-## Clone the repository 
+First clone the repository, 
 
-Then go in mind-map-api/
+then go in mind-map-api/
 
 ```
 cd mind-map-api/
@@ -19,7 +19,7 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Start the apps by ruuning:
+Start the apps by running:
 
 ```bash
 bash run.sh
@@ -27,14 +27,16 @@ bash run.sh
 
 ## To run through a container with Docker
 
-> Docker must be installed on your machine.
-{.is-info}
+> Docker must be installed on your machine!
 
-Build an image
+
+Build the Docker image named `fastapi_img`
 
 ```shell
 docker build -t fastapi_img .
 ```
+
+Run the container named `fastapi_container`
 
 ```shell
 docker run -d --name fastapi_container -p 80:80 fastapi_img
@@ -53,4 +55,5 @@ API: http://127.0.0.1:8000/docs
 Retrieve the Server's IP address where the container is running
 
 Root apps: http:<your_IP_Address>
+
 API: http:<your_IP_Address>/docs
