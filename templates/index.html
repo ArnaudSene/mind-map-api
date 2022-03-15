@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mind app leaf</title>
+</head>
+<body>
+
+    {% for app in apps %}
+        {% set count = [] %}
+        <p style="margin-left: {{ count|length }}em;">{{ app.id|e }}\<br></p>
+        {% set __ = count.append(1) %}
+
+        {% for data in app.data %}
+            {% set count_second = [count] %}
+
+            {% for pieces in data.path %}
+                {% set __ = count_second.append(1) %}
+                <p style="margin-left: {{ count_second|length }}em;">{{ pieces|e }}\<br></p>
+            {% endfor %}
+
+            <p style="margin-left: {{ count_second|length + 1 }}em;">{{ data.text|e }}<br></p>
+
+        {% endfor %}
+    {% endfor %}
+
+</body>
+</html>-
