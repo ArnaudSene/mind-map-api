@@ -46,8 +46,7 @@ deploy-dev:
     - coverage report -m
     - coverage xml
     - flake8 --format=json --exit-zero --output-file=gl-code-quality-report.json src/ main.py
-    - python3 setup.py sdist bdist_wheel
-    - python3 -m twine upload --skip-existing --repository gitlab-dev dist/*-py3-none-any.whl
+
   rules:
     - if: $CI_COMMIT_BRANCH && $CI_COMMIT_BRANCH == 'dev' && $CI_PIPELINE_SOURCE != 'trigger'
   artifacts:
@@ -62,8 +61,7 @@ deploy-prod:
     - coverage report -m
     - coverage xml
     - flake8 --format=json --exit-zero --output-file=gl-code-quality-report.json src/ main.py
-    - python3 setup.py sdist bdist_wheel
-    - python3 -m twine upload --skip-existing --repository gitlab dist/*-py3-none-any.whl
+
   rules:
     - if: $CI_COMMIT_BRANCH && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != 'trigger'
   artifacts:
