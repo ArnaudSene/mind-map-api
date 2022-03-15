@@ -4,10 +4,13 @@ This is a light API powered by [FastAPI](https://fastapi.tiangolo.com/) with no 
 
 Clone the repository 
 
-```shell
-git clone mind_map
+Then go in mind-map-api/
+
+```
+cd mind-map-api/
 ```
 
+Start the apps by ruuning:
 
 ```bash
 bash run.sh
